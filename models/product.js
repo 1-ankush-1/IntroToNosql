@@ -21,6 +21,18 @@ class Product {
     })
   }
 
+  fetchAll() {
+    const db = dbInstance();
+    return new Promise((resolve, reject) => {
+      db.collection('products').find().toArray().then(result => {    //because find doesnt return a promise so using toArrray
+        resolve(result);
+      }).catch(err => {
+        console.log(err);
+        reject(err);
+      })
+    })
+  }
+
 }
 
 module.exports = Product;
