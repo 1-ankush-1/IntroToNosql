@@ -14,24 +14,14 @@ exports.postAddProduct = (req, res, next) => {
   const price = req.body.price;
   const description = req.body.description;
   //creating new instance of product class
-  const prod = new Product(title,price,imageUrl,description);
-  prod.save();      //and save method to save
-  // res.redirect('/admin/products');
-  // req.user
-  //   .createProduct({
-  //     title: title,
-  //     price: price,
-  //     imageUrl: imageUrl,
-  //     description: description
-  //   })
-  //   .then(result => {
-  //     // console.log(result);
-  //     console.log('Created Product');
-  //     res.redirect('/admin/products');
-  //   })
-  //   .catch(err => {
-  //     console.log(err);
-  //   });
+  const prod = new Product(title, price, imageUrl, description);
+  prod.save().then(result => {        //and save method to save
+    console.log('Created Product');
+    res.redirect('/admin/products');
+  })
+    .catch(err => {
+      console.log(err);
+    });
 };
 
 // exports.getEditProduct = (req, res, next) => {
