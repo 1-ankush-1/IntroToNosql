@@ -21,4 +21,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(errorController.get404);
 
-DbConnect();
+DbConnect(client => {
+  app.listen(3000, () => {
+    console.log(client);
+    console.log("server started");
+  })
+});
