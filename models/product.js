@@ -1,4 +1,5 @@
 const { dbInstance } = require("../util/database");
+const mongodb = require("mongodb");
 
 class Product {
   constructor(title, price, imageUrl, description) {
@@ -25,6 +26,18 @@ class Product {
     const db = dbInstance();
     return new Promise((resolve, reject) => {
       db.collection('products').find().toArray().then(result => {    //because find doesnt return a promise so using toArrray
+        resolve(result);
+      }).catch(err => {
+        console.log(err);
+        reject(err);
+      })
+    })
+  }
+
+  fetchById(prodId) {
+    const db = dbInstance();
+    return new Promise((resolve, reject) => {
+      db.collection('products').find({ _id: new mongodb.ObjectId(prodId) }).next().then(result => {    //used objectId because of tyoe BSON because find doesnt return a promise so using next to get document
         resolve(result);
       }).catch(err => {
         console.log(err);

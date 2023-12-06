@@ -12,27 +12,27 @@ exports.getProducts = (req, res, next) => {
     .catch(err => console.log(err));
 };
 
-// exports.getProduct = (req, res, next) => {
-//   const prodId = req.params.productId;
-//   // Product.findAll({ where: { id: prodId } })
-//   //   .then(products => {
-//   //     res.render('shop/product-detail', {
-//   //       product: products[0],
-//   //       pageTitle: products[0].title,
-//   //       path: '/products'
-//   //     });
-//   //   })
-//   //   .catch(err => console.log(err));
-//   Product.findById(prodId)
-//     .then(product => {
-//       res.render('shop/product-detail', {
-//         product: product,
-//         pageTitle: product.title,
-//         path: '/products'
-//       });
-//     })
-//     .catch(err => console.log(err));
-// };
+exports.getProduct = (req, res, next) => {
+  const prodId = req.params.productId;
+  //   // Product.findAll({ where: { id: prodId } })
+  //   //   .then(products => {
+  //   //     res.render('shop/product-detail', {
+  //   //       product: products[0],
+  //   //       pageTitle: products[0].title,
+  //   //       path: '/products'
+  //   //     });
+  //   //   })
+  //   //   .catch(err => console.log(err));
+  const prod = new Product();
+  prod.fetchById(prodId).then(product => {
+    res.render('shop/product-detail', {
+      product: product,
+      pageTitle: product.title,
+      path: '/products'
+    });
+  })
+    .catch(err => console.log(err));
+};
 
 exports.getIndex = (req, res, next) => {
   const prod = new Product();
