@@ -16,7 +16,7 @@ exports.postAddProduct = (req, res, next) => {
   //creating new instance of product class
   const prod = new Product(title, price, imageUrl, description);
   prod.save().then(result => {        //and save method to save
-    console.log('Created Product');
+    console.log('Created Product', result);
     res.redirect('/admin/products');
   })
     .catch(err => {
