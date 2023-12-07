@@ -55,6 +55,17 @@ class Product {
     })
   }
 
+  static deleteById(prodId) {
+    const db = dbInstance();
+    return new Promise((resolve, reject) => {
+      db.collection('products').deleteOne({ _id: new mongodb.ObjectId(prodId) }).then(result => {    //used objectId because of tyoe BSON because find doesnt return a promise so using next to get document
+        resolve("deleted");
+      }).catch(err => {
+        console.log(err);
+        reject(err);
+      })
+    })
+  }
 }
 
 module.exports = Product;
