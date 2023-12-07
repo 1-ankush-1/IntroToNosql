@@ -32,6 +32,20 @@ class User {
       });
   }
 
+  deleteItemFromCart(productId) {
+    const db = dbInstance();
+    //get all item except this id
+    const updatedCartItems = this.cart.items.filter(item => {
+      return item.productId.toString() !== productId.toString();
+    })
+
+    //update items
+    return db.collection('users').updateOne(
+      { _id: new mongodb.ObjectId(this._id) }, {
+      $set: { cart: { items: updatedCartItems } }
+    })
+  }
+
   addToCart(product) {
     const db = dbInstance();
     //find index
