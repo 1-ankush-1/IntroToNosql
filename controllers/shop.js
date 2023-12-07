@@ -71,17 +71,16 @@ exports.postOrder = (req, res, next) => {
     res.redirect('/orders');
   }).catch(err => console.log(err));
 };
-   
 
-// exports.getOrders = (req, res, next) => {
-//   req.user
-//     .getOrders({ include: ['products'] })
-//     .then(orders => {
-//       res.render('shop/orders', {
-//         path: '/orders',
-//         pageTitle: 'Your Orders',
-//         orders: orders
-//       });
-//     })
-//     .catch(err => console.log(err));
-// };
+
+exports.getOrders = (req, res, next) => {
+  req.user.getOrder().then(orders => {
+    console.log(orders[0].items)
+    res.render('shop/orders', {
+      path: '/orders',
+      pageTitle: 'Your Orders',
+      orders: orders
+    });
+  })
+    .catch(err => console.log(err));
+}; 
