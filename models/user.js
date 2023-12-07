@@ -16,11 +16,22 @@ class User {
 
   addToCart(product) {
     const db = dbInstance();
-    // const cartProducts = this.cart.items.findIndex(cp=>{
-    //   return cp._id === product.id;
-    // })
+    //find index
+    const cartProductIndex = this.cart.items.findIndex(cp => {
+      return cp.productId.toString() === product._id.toString();
+    })
 
-    const updateCart = { items: [{ productId: new mongodb.ObjectId(product._id), quantity: 1 }] };
+    let newQuantity = 1;      //default quantity
+    const updatedCartItems = [...this.cart.items];   //old values
+    if (cartProductIndex >= 0) {   //if index exist update quantity
+      newQuantity = Number(this.cart.items[cartProductIndex].quantity) + 1;
+      updatedCartItems[cartProductIndex].quantity = newQuantity;
+    } else {      //not exist add new 
+      updatedCartItems.push({ productId: new mongodb.ObjectId(product._id), quantity: newQuantity });
+    }
+
+    //create cart obj
+    const updateCart = { items: updatedCartItems };
 
     return db.collection('users').updateOne(
       { _id: new mongodb.ObjectId(this._id) },
