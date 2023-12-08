@@ -20,6 +20,28 @@ const userSchema = new Schema({
   }
 })
 
+//creating method with mongoose
+userSchema.methods.addToCart = function (product) {
+  //find index
+  const cartProductIndex = this.cart.items.findIndex(cp => {
+    return cp.productId.toString() === product._id.toString();
+  })
+
+  let newQuantity = 1;      //default quantity
+  const updatedCartItems = [...this.cart.items];   //old values
+  if (cartProductIndex >= 0) {   //if index exist update quantity
+    newQuantity = Number(this.cart.items[cartProductIndex].quantity) + 1;
+    updatedCartItems[cartProductIndex].quantity = newQuantity;
+  } else {      //not exist add new 
+    updatedCartItems.push({ productId: product._id, quantity: newQuantity });
+  }
+
+  //create cart obj
+  const updateCart = { items: updatedCartItems };
+  this.cart = updateCart;
+  return this.save();
+}
+
 module.exports = mongoose.model("User", userSchema);
 // class User {
 //   constructor(name, email, cart, id) {
