@@ -13,9 +13,9 @@ exports.postAddProduct = (req, res, next) => {
   const imageUrl = req.body.imageUrl;
   const price = req.body.price;
   const description = req.body.description;
-  // const userId = req.user._id
+  const userId = req.user._id
   //creating new instance of product class
-  const prod = new Product({ title, price, imageUrl, description });
+  const prod = new Product({ title, price, imageUrl, description, userId });
   prod.save().then(result => {        //and save method to save
     console.log('Created Product', result);
     res.redirect('/admin/products');
@@ -60,8 +60,12 @@ exports.postEditProduct = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
-  // const prod = new Product();
-  Product.find().then(products => {
+  // .select('title price _id -description') - used to select particular field
+  // .populate('userId',"name");   get name field from refered table
+
+  Product.find({
+    userId: req.user._id
+  }).then(products => {
     res.render('admin/products', {
       prods: products,
       pageTitle: 'Admin Products',
